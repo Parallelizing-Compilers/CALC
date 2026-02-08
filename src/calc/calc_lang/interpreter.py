@@ -6,18 +6,6 @@ from typing import Any
 from ..symbolic import ScopedDict, fisinstance
 from . import nodes as exmpl
 
-
-@dataclass(eq=True)
-class HaltState:
-    """
-    A class to represent the halt state of an assembly program.
-    This is used to indicate whether we should break or return, and
-    what the return value is if applicable.
-    """
-    should_halt: bool = False
-    return_value: Any = None
-
-
 class CalcLangMachine:
     """
     An interpreter for CALCCalcLang.
