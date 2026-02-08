@@ -38,8 +38,7 @@ class CalcLangNode(Term):
     def __str__(self):
         """Returns a string representation of the node."""
         ctx = CalcLangPrinterContext()
-        ctx(self)
-        return ctx.emit()
+        return ctx(self) or ""
 
 
 class CalcLangTree(CalcLangNode, TermTree):

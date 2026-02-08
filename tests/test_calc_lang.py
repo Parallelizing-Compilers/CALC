@@ -1,0 +1,147 @@
+"""Tests for calc_lang nodes and interpreter."""
+
+import pytest
+from calc.calc_lang import Add, CalcLangInterpreter, Literal, Mul, Pow, Variable
+
+
+class TestCalcLangNodes:
+    """Test calc_lang node creation and structure."""
+
+    def test_literal_creation(self):
+        """Test creating a literal node."""
+        lit = Literal(42)
+        assert lit.val == 42
+        assert lit.result_ftype == int
+
+    def test_variable_creation(self):
+        """Test creating a variable node."""
+        var = Variable("x", int)
+        assert var.name == "x"
+        assert var.type == int
+        assert var.result_ftype == int
+
+    def test_add_node_creation(self):
+        """Test creating an Add node."""
+        left = Literal(5)
+        right = Literal(3)
+        add = Add(left, right)
+        assert add.left == left
+        assert add.right == right
+        assert len(add.children) == 2
+
+    def test_mul_node_creation(self):
+        """Test creating a Mul node."""
+        left = Literal(4)
+        right = Literal(7)
+        mul = Mul(left, right)
+        assert mul.left == left
+        assert mul.right == right
+        assert len(mul.children) == 2
+
+    def test_pow_node_creation(self):
+        """Test creating a Pow node."""
+        base = Literal(2)
+        exponent = Literal(3)
+        pow_node = Pow(base, exponent)
+        assert pow_node.base == base
+        assert pow_node.exponent == exponent
+        assert len(pow_node.children) == 2
+
+
+class TestCalcLangInterpreter:
+    """Test calc_lang interpreter execution."""
+
+    def test_literal_evaluation(self):
+        """Test evaluating a literal."""
+        interp = CalcLangInterpreter()
+        result = interp(Literal(10), bindings={})
+        assert result == 10
+
+    def test_simple_addition(self):
+        """Test evaluating simple addition: 5 + 3."""
+        interp = CalcLangInterpreter()
+        expr = Add(Literal(5), Literal(3))
+        result = interp(expr, bindings={})
+        assert result == 8
+
+    def test_simple_multiplication(self):
+        """Test evaluating simple multiplication: 4 * 7."""
+        interp = CalcLangInterpreter()
+        expr = Mul(Literal(4), Literal(7))
+        result = interp(expr, bindings={})
+        assert result == 28
+
+    def test_simple_power(self):
+        """Test evaluating simple power: 2 ** 3."""
+        interp = CalcLangInterpreter()
+        expr = Pow(Literal(2), Literal(3))
+        result = interp(expr, bindings={})
+        assert result == 8
+
+    def test_nested_operations(self):
+        """Test evaluating nested operations: (2 + 3) * 4."""
+        interp = CalcLangInterpreter()
+        expr = Mul(Add(Literal(2), Literal(3)), Literal(4))
+        result = interp(expr, bindings={})
+        assert result == 20
+
+    def test_complex_expression(self):
+        """Test evaluating complex expression: (2 ** 3) + (4 * 5)."""
+        interp = CalcLangInterpreter()
+        expr = Add(Pow(Literal(2), Literal(3)), Mul(Literal(4), Literal(5)))
+        result = interp(expr, bindings={})
+        assert result == 28
+
+    def test_floating_point_operations(self):
+        """Test evaluating with floating point numbers: 2.5 * 4.0."""
+        interp = CalcLangInterpreter()
+        expr = Mul(Literal(2.5), Literal(4.0))
+        result = interp(expr, bindings={})
+        assert result == 10.0
+
+    def test_power_with_floats(self):
+        """Test evaluating power with floats: 2.0 ** 0.5."""
+        interp = CalcLangInterpreter()
+        expr = Pow(Literal(2.0), Literal(0.5))
+        result = interp(expr, bindings={})
+        assert abs(result - 1.414213562373095) < 1e-10
+
+
+class TestCalcLangPrinter:
+    """Test calc_lang string representation."""
+
+    def test_literal_string(self):
+        """Test string representation of a literal."""
+        lit = Literal(42)
+        assert "42" in str(lit)
+
+    def test_add_string(self):
+        """Test string representation of addition."""
+        expr = Add(Literal(5), Literal(3))
+        s = str(expr)
+        assert "+" in s
+        assert "5" in s
+        assert "3" in s
+
+    def test_mul_string(self):
+        """Test string representation of multiplication."""
+        expr = Mul(Literal(4), Literal(7))
+        s = str(expr)
+        assert "*" in s
+        assert "4" in s
+        assert "7" in s
+
+    def test_pow_string(self):
+        """Test string representation of power."""
+        expr = Pow(Literal(2), Literal(3))
+        s = str(expr)
+        assert "**" in s
+        assert "2" in s
+        assert "3" in s
+
+    def test_nested_string(self):
+        """Test string representation of nested operations."""
+        expr = Mul(Add(Literal(2), Literal(3)), Literal(4))
+        s = str(expr)
+        assert "*" in s
+        assert "+" in s

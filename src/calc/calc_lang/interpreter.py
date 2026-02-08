@@ -17,6 +17,8 @@ class CalcLangMachine:
     ):
         if bindings is None:
             bindings = ScopedDict()
+        self.bindings = bindings
+        self.types = {}
 
     def __call__(self, prgm: exmpl.CalcLangNode):
         """
@@ -60,4 +62,5 @@ class CalcLangInterpreter:
         self.verbose = verbose
 
     def __call__(self, prgm: exmpl.CalcLangNode, bindings=None):
-        return self.machine(bindings)(prgm)
+        machine = CalcLangMachine(bindings)
+        return machine(prgm)

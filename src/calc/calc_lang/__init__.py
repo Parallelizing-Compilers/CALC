@@ -1,4 +1,4 @@
-from .interpreter import CalcLangInterpreter, CalcLangInterpreterKernel
+from .interpreter import CalcLangInterpreter, CalcLangMachine
 from .nodes import (
     Add,
     CalcLangNode,
@@ -12,6 +12,7 @@ from .nodes import (
 __all__ = [
     "Add",
     "CalcLangInterpreter",
+    "CalcLangMachine",
     "CalcLangNode",
     "CalcLangExpression",
     "Literal",
