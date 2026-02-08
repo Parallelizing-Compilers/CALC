@@ -7,11 +7,11 @@ from ..symbolic import Context, Term, TermTree, literal_repr
 from ..util import qual_str
 
 
-class CalcLangNode(Term):
+class ExampleLangNode(Term):
     """
-    CalcLangNode
+    ExampleLangNode
 
-    Represents a CALCCalcLang IR node. CALCCalcLang is the final intermediate
+    Represents a CALCExampleLang IR node. CALCExampleLang is the final intermediate
     representation before code generation (translation to the output language).
     It is a low-level imperative description of the program, with control flow,
     linear memory regions called "buffers", and explicit memory management.
@@ -37,19 +37,19 @@ class CalcLangNode(Term):
 
     def __str__(self):
         """Returns a string representation of the node."""
-        ctx = CalcLangPrinterContext()
+        ctx = ExampleLangPrinterContext()
         ctx(self)
         return ctx.emit()
 
 
-class CalcLangTree(CalcLangNode, TermTree):
+class ExampleLangTree(ExampleLangNode, TermTree):
     @property
     def children(self):
         """Returns the children of the node."""
         raise Exception(f"`children` isn't supported for {self.__class__}.")
 
 
-class CalcLangExpression(CalcLangNode):
+class ExampleLangExpression(ExampleLangNode):
     @property
     @abstractmethod
     def result_ftype(self):
@@ -58,7 +58,7 @@ class CalcLangExpression(CalcLangNode):
 
 
 @dataclass(eq=True, frozen=True)
-class Literal(CalcLangExpression):
+class Literal(ExampleLangExpression):
     """
     Represents the literal value `val`.
 
@@ -78,7 +78,7 @@ class Literal(CalcLangExpression):
 
 
 @dataclass(eq=True, frozen=True)
-class Variable(CalcLangExpression):
+class Variable(ExampleLangExpression):
     """
     Represents a logical AST expression for a variable named `name`, which
     will hold a value of type `type`.
@@ -101,7 +101,7 @@ class Variable(CalcLangExpression):
 
 
 @dataclass(eq=True, frozen=True)
-class Add(CalcLangExpression, CalcLangTree):
+class Add(ExampleLangExpression, ExampleLangTree):
     """
     Represents an addition expression: left + right.
 
@@ -110,8 +110,8 @@ class Add(CalcLangExpression, CalcLangTree):
         right: The right operand.
     """
 
-    left: CalcLangExpression
-    right: CalcLangExpression
+    left: ExampleLangExpression
+    right: ExampleLangExpression
 
     @property
     def children(self):
@@ -125,7 +125,7 @@ class Add(CalcLangExpression, CalcLangTree):
 
 
 @dataclass(eq=True, frozen=True)
-class Mul(CalcLangExpression, CalcLangTree):
+class Mul(ExampleLangExpression, ExampleLangTree):
     """
     Represents a multiplication expression: left * right.
 
@@ -134,8 +134,8 @@ class Mul(CalcLangExpression, CalcLangTree):
         right: The right operand.
     """
 
-    left: CalcLangExpression
-    right: CalcLangExpression
+    left: ExampleLangExpression
+    right: ExampleLangExpression
 
     @property
     def children(self):
@@ -149,7 +149,7 @@ class Mul(CalcLangExpression, CalcLangTree):
 
 
 @dataclass(eq=True, frozen=True)
-class Pow(CalcLangExpression, CalcLangTree):
+class Pow(ExampleLangExpression, ExampleLangTree):
     """
     Represents a power expression: base ** exponent.
 
@@ -158,8 +158,8 @@ class Pow(CalcLangExpression, CalcLangTree):
         exponent: The exponent operand.
     """
 
-    base: CalcLangExpression
-    exponent: CalcLangExpression
+    base: ExampleLangExpression
+    exponent: ExampleLangExpression
 
     @property
     def children(self):
@@ -172,7 +172,7 @@ class Pow(CalcLangExpression, CalcLangTree):
         return return_type("pow", self.base.result_ftype, self.exponent.result_ftype)
 
 
-class CalcLangPrinterContext(Context):
+class ExampleLangPrinterContext(Context):
     def __init__(self, tab="    ", indent=0):
         super().__init__()
         self.tab = tab
@@ -185,7 +185,7 @@ class CalcLangPrinterContext(Context):
     def emit(self):
         return "\n".join([*self.preamble, *self.epilogue])
 
-    def block(self) -> "CalcLangPrinterContext":
+    def block(self) -> "ExampleLangPrinterContext":
         blk = super().block()
         blk.indent = self.indent
         blk.tab = self.tab
@@ -196,7 +196,7 @@ class CalcLangPrinterContext(Context):
         blk.indent = self.indent + 1
         return blk
 
-    def __call__(self, prgm: CalcLangNode):
+    def __call__(self, prgm: ExampleLangNode):
         feed = self.feed
         match prgm:
             case Literal(value):

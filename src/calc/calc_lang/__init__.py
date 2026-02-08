@@ -1,17 +1,21 @@
 from .interpreter import CalcLangInterpreter, CalcLangInterpreterKernel
 from .nodes import (
-    Call,
+    Add,
     CalcLangNode,
     CalcLangExpression,
     Literal,
+    Mul,
+    Pow,
     Variable,
 )
 
 __all__ = [
-    "Call",
+    "Add",
     "CalcLangInterpreter",
     "CalcLangNode",
     "CalcLangExpression",
     "Literal",
+    "Mul",
+    "Pow",
     "Variable",
 ]

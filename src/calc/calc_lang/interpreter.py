@@ -38,10 +38,12 @@ class CalcLangMachine:
                 raise KeyError(
                     f"Variable '{var_n}' is not defined in the current context."
                 )
-            case exmpl.Call(f, args):
-                f_e = self(f)
-                args_e = [self(arg) for arg in args]
-                return f_e(*args_e)
+            case exmpl.Add(left, right):
+                return self(left) + self(right)
+            case exmpl.Mul(left, right):
+                return self(left) * self(right)
+            case exmpl.Pow(base, exponent):
+                return self(base) ** self(exponent)
             case _:
                 raise NotImplementedError(
                     f"Unrecognized assembly node type: {type(prgm)}"
