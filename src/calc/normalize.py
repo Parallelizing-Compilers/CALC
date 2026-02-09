@@ -10,6 +10,7 @@ def normalize(node:CalcLangExpression):
                 return Add(Mul(a, c), Mul(b, c))
             case Mul(x, Pow(y, Literal(n))) if x == y:
                 return Pow(x, Literal(n + 1))
+            # Your normalization rules here! Feel free to delete the above examples if you want.
             case _:
                 return None
     return Rewrite(Fixpoint(PostWalk(rewrite)))(node)
@@ -33,6 +34,8 @@ def is_normalized(node:CalcLangExpression):
     """
     check if the expression is in normalized form, i.e. it is of the form
         ... (ax^2 + (bx + c))
+    
+    where a, b, c are constants and x is a variable. Note the nesting of parens.
     """
     return _is_normalized(node)[2]
 
