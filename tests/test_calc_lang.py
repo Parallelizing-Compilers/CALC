@@ -101,3 +101,26 @@ class TestCalcLangPrinter:
         s = str(expr)
         assert "*" in s
         assert "+" in s
+
+
+class TestCalcLangNormalization:
+    """Test normalization of calc_lang expressions."""
+
+
+    @pytest.mark.parametrize(
+        "program",
+        [
+            Add(Literal(2), Literal(3)),
+            Mul(Literal(4), Literal(7)),
+            Pow(Literal(2), Literal(3)),
+            Add(Mul(Variable("x"), Literal(2)), Literal(3)),
+            Mul(Add(Variable("x"), Literal(2)), Literal(3)),
+            Pow(Variable("x"), Literal(3)),
+            Pow(Add(Variable("x"), Literal(2)), Literal(3)),
+            Pow(Mul(Add(Variable("x"), Literal(2)), Add(Variable("x"), Literal(3))), Literal(2)),
+        ]
+    )
+    def test_normalization(self, program):
+        from calc.normalize import normalize, is_normalized
+        program2 = normalize(program)
+        assert is_normalized(program2), f"expected ... (ax^2 + (bx + c)), got {program2}"
