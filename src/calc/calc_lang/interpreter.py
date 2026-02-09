@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from ..symbolic import ScopedDict, fisinstance
+from ..symbolic import ScopedDict
 from . import nodes as exmpl
 
 class CalcLangMachine:
