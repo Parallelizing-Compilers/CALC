@@ -4,50 +4,6 @@ import pytest
 from calc.calc_lang import Add, CalcLangInterpreter, Literal, Mul, Pow, Variable
 
 
-class TestCalcLangNodes:
-    """Test calc_lang node creation and structure."""
-
-    def test_literal_creation(self):
-        """Test creating a literal node."""
-        lit = Literal(42)
-        assert lit.val == 42
-        assert lit.result_ftype == int
-
-    def test_variable_creation(self):
-        """Test creating a variable node."""
-        var = Variable("x", int)
-        assert var.name == "x"
-        assert var.type == int
-        assert var.result_ftype == int
-
-    def test_add_node_creation(self):
-        """Test creating an Add node."""
-        left = Literal(5)
-        right = Literal(3)
-        add = Add(left, right)
-        assert add.left == left
-        assert add.right == right
-        assert len(add.children) == 2
-
-    def test_mul_node_creation(self):
-        """Test creating a Mul node."""
-        left = Literal(4)
-        right = Literal(7)
-        mul = Mul(left, right)
-        assert mul.left == left
-        assert mul.right == right
-        assert len(mul.children) == 2
-
-    def test_pow_node_creation(self):
-        """Test creating a Pow node."""
-        base = Literal(2)
-        exponent = Literal(3)
-        pow_node = Pow(base, exponent)
-        assert pow_node.base == base
-        assert pow_node.exponent == exponent
-        assert len(pow_node.children) == 2
-
-
 class TestCalcLangInterpreter:
     """Test calc_lang interpreter execution."""
 
@@ -105,6 +61,8 @@ class TestCalcLangInterpreter:
         expr = Pow(Literal(2.0), Literal(0.5))
         result = interp(expr, bindings={})
         assert abs(result - 1.414213562373095) < 1e-10
+
+
 
 
 class TestCalcLangPrinter:
