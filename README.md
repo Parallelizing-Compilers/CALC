@@ -1,4 +1,4 @@
-# Worksheet 7: Rewriting CALC
+# Worksheet 7 + 8: Rewriting CALC
 
 A python compiler that translates CALC code to C code.
 
@@ -25,7 +25,7 @@ pip install .
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines, development setup, and best practices.
 
 
-### Overview
+### Worksheet 7: Normalization
 
 CALC is a simple calculator language. In this worksheet, you'll implement a normalization pass that rewrites Calc expressions into the standard form for polynomials:
 
@@ -57,3 +57,11 @@ poetry run pytest
 ```bash
 pytest tests/
 ```
+
+### Worksheet 8: Parsing
+
+In this worksheet, you'll implement a parser that takes a string representation of a CALC expression and converts it into the corresponding AST using the nodes defined in `src/calc/calc_lang/nodes.py`.
+
+Fill out the grammar and parsing logic in `src/calc/parser.py` to achieve this. The parser should be able to handle expressions that include literals, variables, addition, subtraction, multiplication, and exponentiation, and follow operator precedence rules like PEMDAS.
+
+You may find the [lark documentation](https://lark-parser.readthedocs.io/en/stable/) helpful for implementing the parser.
