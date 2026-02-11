@@ -125,4 +125,4 @@ class TestCalcLangNormalization:
     def test_normalization(self, program):
         from calc.normalize import normalize, is_normalized
         program2 = normalize(program)
-        assert is_normalized(program2), f"expected ... (ax^2 + (bx + c)), got {program2}"
+        assert is_normalized(program2), f"non-normal {program2}, expected ... ((a * x^2) + ((b * x) + c))"

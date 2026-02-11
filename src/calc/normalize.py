@@ -1,4 +1,4 @@
-from .calc_lang import CalcLangExpression, Literal, Variable, Add, Mul, Pow
+from .calc_lang import CalcLangExpression, Literal, Variable, Add, Mul, Pow, Sub
 from .symbolic import Rewrite, Fixpoint, PostWalk 
 
 def normalize(node:CalcLangExpression):
@@ -33,7 +33,7 @@ def _is_normalized(node:CalcLangExpression):
 def is_normalized(node:CalcLangExpression):
     """
     check if the expression is in normalized form, i.e. it is of the form
-        ... (ax^2 + (bx + c))
+        ... ((a * x^2) + ((b * x) + c))
     
     where a, b, c are constants and x is a variable. Note the nesting of parens.
     """
