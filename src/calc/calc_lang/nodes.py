@@ -1,4 +1,3 @@
-from abc import abstractmethod
 from dataclasses import asdict, dataclass
 from typing import Any
 
@@ -47,8 +46,7 @@ class CalcLangTree(CalcLangNode, TermTree):
         raise Exception(f"`children` isn't supported for {self.__class__}.")
 
 
-class CalcLangExpression(CalcLangNode):
-    ...
+class CalcLangExpression(CalcLangNode): ...
 
 
 @dataclass(eq=True, frozen=True)
@@ -99,6 +97,7 @@ class Add(CalcLangExpression, CalcLangTree):
     def children(self):
         """Returns the children of the node."""
         return [self.left, self.right]
+
 
 @dataclass(eq=True, frozen=True)
 class Sub(CalcLangExpression, CalcLangTree):

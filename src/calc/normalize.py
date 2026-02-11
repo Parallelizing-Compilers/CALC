@@ -1,8 +1,9 @@
-from .calc_lang import CalcLangExpression, Literal, Variable, Add, Mul, Pow, Sub
-from .symbolic import Rewrite, Fixpoint, PostWalk 
+from .calc_lang import Add, CalcLangExpression, Literal, Mul, Pow, Variable, Sub
+from .symbolic import Fixpoint, PostWalk, Rewrite
 
-def normalize(node:CalcLangExpression):
-    def rewrite(node:CalcLangExpression):
+
+def normalize(node: CalcLangExpression):
+    def rewrite(node: CalcLangExpression):
         match node:
             case Add(Literal(x), Literal(y)):
                 return Literal(x + y)
@@ -15,14 +16,14 @@ def normalize(node:CalcLangExpression):
                 return None
     return Rewrite(Fixpoint(PostWalk(rewrite)))(node)
 
-def _is_normalized(node:CalcLangExpression):
+
+def _is_normalized(node: CalcLangExpression):
     match node:
         case Add(Mul(Literal(a), Pow(Variable(x), Literal(n))), y):
             z, m, c = _is_normalized(y)
             if c and x == z and n == m + 1:
                 return x, n, c
-            else:
-                return (None, None, False)
+            return (None, None, False)
         case Add(Mul(Literal(a), Variable(x)), Literal(c)):
             return x, 1, True
         case Literal(_):
@@ -30,14 +31,12 @@ def _is_normalized(node:CalcLangExpression):
         case _:
             return (None, None, False)
 
-def is_normalized(node:CalcLangExpression):
+
+def is_normalized(node: CalcLangExpression):
     """
     check if the expression is in normalized form, i.e. it is of the form
         ... ((a * x^2) + ((b * x) + c))
-    
+
     where a, b, c are constants and x is a variable. Note the nesting of parens.
     """
     return _is_normalized(node)[2]
-
-            
-

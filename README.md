@@ -31,7 +31,7 @@ CALC is a simple calculator language. In this worksheet, you'll implement a norm
 
 $a_{n}x^{n}+a_{n-1}x^{n-1}+\dotsb +a_{2}x^{2}+a_{1}x+a_{0}$
 
-where $a_{n}$ are coefficients and $x$ is the variable. 
+where $a_{n}$ are coefficients and $x$ is the variable.
 
 in `src/calc/calc_lang/nodes.py`, we have defined the following nodes:
 - `Literal`: Represents a literal value (e.g., a number).

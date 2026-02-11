@@ -1,10 +1,8 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Any
-
 from ..symbolic import ScopedDict
 from . import nodes as exmpl
+
 
 class CalcLangMachine:
     """
@@ -43,6 +41,7 @@ class CalcLangMachine:
                 raise NotImplementedError(
                     f"Unrecognized assembly node type: {type(prgm)}"
                 )
+
 
 class CalcLangInterpreter:
     """
