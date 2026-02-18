@@ -1,6 +1,5 @@
-from .calc_lang import Add, CalcLangExpression, Literal, Mul, Pow, Variable
-from .symbolic import Fixpoint, PostWalk, Rewrite
-
+from .calc_lang import Add, CalcLangExpression, Literal, Mul, Pow, Sub, Variable
+from .symbolic import Chain, Fixpoint, PostWalk, Rewrite
 
 def normalize(node: CalcLangExpression):
     def rewrite(node: CalcLangExpression):
