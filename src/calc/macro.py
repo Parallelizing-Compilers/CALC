@@ -27,6 +27,21 @@ def _parse(node):
     match node:
         case ast.Constant(value):
             return calc_lang.Literal(value)
-        #your parsing rules here! Check the ast module docs for hints.
+        case ast.Name(id):
+            return calc_lang.Variable(id)
+        case ast.BinOp(left, op, right):
+            left_expr = _parse(left)
+            right_expr = _parse(right)
+            match op:
+                case ast.Add():
+                    return calc_lang.Add(left_expr, right_expr)
+                case ast.Sub():
+                    return calc_lang.Sub(left_expr, right_expr)
+                case ast.Mult():
+                    return calc_lang.Mul(left_expr, right_expr)
+                case ast.Pow():
+                    return calc_lang.Pow(left_expr, right_expr)
+                case _:
+                    raise ValueError(f"Unsupported operator: {op}")
         case _:
             raise ValueError(f"Unsupported AST node: {node}")
