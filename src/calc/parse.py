@@ -35,8 +35,10 @@ def _parse(tree: Tree) -> calc_lang.CalcLangExpression:
             right_expr = _parse(right)
             return calc_lang.Add(left_expr, right_expr)
         case Tree("int_literal", [value]):
+            assert isinstance(value, str)
             return calc_lang.Literal(int(value))
         case Tree("float_literal", [value]):
+            assert isinstance(value, str)
             return calc_lang.Literal(float(value))
         case _:
             raise ValueError(
