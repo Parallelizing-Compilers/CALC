@@ -9,9 +9,27 @@ class Tracer:
 
     def __add__(self, other):
         return Tracer(calc_lang.Add(self.expr, trace(other).expr))
-
-    # Your implementation here!
-    #https://docs.python.org/3/reference/datamodel.html#emulating-numeric-types
+    
+    def __radd__(self, other):
+        return Tracer(calc_lang.Add(trace(other).expr, self.expr))
+    
+    def __sub__(self, other):
+        return Tracer(calc_lang.Sub(self.expr, trace(other).expr))
+    
+    def __rsub__(self, other):
+        return Tracer(calc_lang.Sub(trace(other).expr, self.expr))
+    
+    def __mul__(self, other):
+        return Tracer(calc_lang.Mul(self.expr, trace(other).expr))
+    
+    def __rmul__(self, other):
+        return Tracer(calc_lang.Mul(trace(other).expr, self.expr))
+    
+    def __pow__(self, other):
+        return Tracer(calc_lang.Pow(self.expr, trace(other).expr))
+    
+    def __rpow__(self, other):
+        return Tracer(calc_lang.Pow(trace(other).expr, self.expr))
 
 def trace(name) -> Tracer:
     if isinstance(name, Tracer):
